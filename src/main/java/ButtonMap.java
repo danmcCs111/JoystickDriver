@@ -26,8 +26,8 @@ public class ButtonMap
 		ControllerButton.GUIDE
 	};
 	private static final float
-		THREASHOLD_POSITIVE = .5f,
-		THREASHOLD_NEGATIVE = -.5f;
+		THRESHOLD_POSITIVE = .5f,
+		THRESHOLD_NEGATIVE = -.5f;
 	
 	public ButtonMap()
 	{
@@ -103,7 +103,7 @@ public class ButtonMap
 						float val = axis[i].val;
 						boolean press = axis[i].getPressed();
 						
-						if(val >= THREASHOLD_POSITIVE || val <= THREASHOLD_NEGATIVE)
+						if(val >= THRESHOLD_POSITIVE || val <= THRESHOLD_NEGATIVE)
 						{
 							if(press == false)
 							{
