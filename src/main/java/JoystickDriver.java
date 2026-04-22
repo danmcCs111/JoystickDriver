@@ -33,7 +33,14 @@ public class JoystickDriver
 	{
 		bm.startAxisToButtonThread(controllers, currController);
 		bm.startButtonThread(controllers, currController);
-		while(true);
+		while(true)
+		{
+			try {
+				Thread.sleep(5000l);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void main(String [] args)

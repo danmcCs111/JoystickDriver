@@ -26,8 +26,8 @@ public class ButtonMap
 		ControllerButton.GUIDE
 	};
 	private static final float
-		THRESHOLD_POSITIVE = .5f,
-		THRESHOLD_NEGATIVE = -.5f;
+		THRESHOLD_POSITIVE = .6f,
+		THRESHOLD_NEGATIVE = -.6f;
 	
 	public ButtonMap()
 	{
@@ -101,19 +101,24 @@ public class ButtonMap
 							e.printStackTrace();
 						}
 						float val = axis[i].val;
-						boolean press = axis[i].getPressed();
 						
 						if(val >= THRESHOLD_POSITIVE || val <= THRESHOLD_NEGATIVE)
 						{
-							if(press == false)
+							boolean press = axis[i].getPressed();
+							if(press)
 							{
 								sendJoyPress(
 									axis[i].getControllerAxis().toString() + " " +
 									axis[i].isPositiveFloat()
 								);
-								axis[i].setPressed(true);
+								axis[i].setPressed(false);
 							}
 						}
+					}
+					try {
+						Thread.sleep(10L);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 				}
 			}
