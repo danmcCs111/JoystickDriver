@@ -19,10 +19,12 @@ public class ButtonMap
 		ControllerButton.BACK,
 		ControllerButton.LEFTBUMPER,
 		ControllerButton.RIGHTBUMPER,
-		ControllerButton.DPAD_DOWN,
-		ControllerButton.DPAD_LEFT,
-		ControllerButton.DPAD_RIGHT,
-		ControllerButton.DPAD_UP,
+		ControllerButton.LEFTSTICK,
+		ControllerButton.RIGHTSTICK,
+//		ControllerButton.DPAD_DOWN,
+//		ControllerButton.DPAD_LEFT,
+//		ControllerButton.DPAD_RIGHT,
+//		ControllerButton.DPAD_UP,
 		ControllerButton.GUIDE
 	};
 	private static final float
@@ -84,8 +86,8 @@ public class ButtonMap
 			public void run() 
 			{
 				ControllerAxisToButton [] axis = new ControllerAxisToButton[] {
-					new ControllerAxisToButton(ControllerAxis.LEFTX),
-					new ControllerAxisToButton(ControllerAxis.LEFTY),
+//					new ControllerAxisToButton(ControllerAxis.LEFTX),
+//					new ControllerAxisToButton(ControllerAxis.LEFTY),
 					new ControllerAxisToButton(ControllerAxis.RIGHTX),
 					new ControllerAxisToButton(ControllerAxis.RIGHTY)
 				};
