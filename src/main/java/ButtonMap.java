@@ -21,10 +21,10 @@ public class ButtonMap
 		ControllerButton.RIGHTBUMPER,
 		ControllerButton.LEFTSTICK,
 		ControllerButton.RIGHTSTICK,
-//		ControllerButton.DPAD_DOWN,
-//		ControllerButton.DPAD_LEFT,
-//		ControllerButton.DPAD_RIGHT,
-//		ControllerButton.DPAD_UP,
+		ControllerButton.DPAD_DOWN,
+		ControllerButton.DPAD_LEFT,
+		ControllerButton.DPAD_RIGHT,
+		ControllerButton.DPAD_UP,
 		ControllerButton.GUIDE
 	};
 	private static final float
