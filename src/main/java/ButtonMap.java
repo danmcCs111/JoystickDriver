@@ -86,8 +86,8 @@ public class ButtonMap
 			public void run() 
 			{
 				ControllerAxisToButton [] axis = new ControllerAxisToButton[] {
-//					new ControllerAxisToButton(ControllerAxis.LEFTX),
-//					new ControllerAxisToButton(ControllerAxis.LEFTY),
+					new ControllerAxisToButton(ControllerAxis.LEFTX),
+					new ControllerAxisToButton(ControllerAxis.LEFTY),
 					new ControllerAxisToButton(ControllerAxis.RIGHTX),
 					new ControllerAxisToButton(ControllerAxis.RIGHTY)
 				};
