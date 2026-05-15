@@ -15,7 +15,7 @@ fi
 echo "$@"
 echo $classpath
 
-
+../joystick_mouse_config/launch_antimicrox-windows.sh&
 java -cp "$classpath" JoystickDriver "$@"; ../joystick_mouse_config/antimicrox-3.5.1-PortableWindows-AMD64/bin/antimicrox.exe --profile ../joystick_mouse_config/video-launcher_joystick.gamecontroller
 
 cd -
