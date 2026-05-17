@@ -15,7 +15,7 @@ public class JoystickConsole extends JFrame
 	private static final long serialVersionUID = 1L;
 	
 	private static final String
-		TITLE = "Joystick Output Console",
+		TITLE = "Joystick Driver",
 		CLOSE_BTN_TEXT = "Close";
 	private static final Dimension
 		MIN_DIMENSION = new Dimension(350, 100);
