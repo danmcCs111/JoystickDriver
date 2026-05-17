@@ -23,10 +23,11 @@ public class JoystickDriver
 	
 	public JoystickDriver()
 	{
+		JoystickConsole js = new JoystickConsole();
 		controllers = new ControllerManager();
 		controllers.initSDLGamepad();
 		currController = controllers.getControllerIndex(0);
-		bm = new ButtonMap();
+		bm = new ButtonMap(js);
 	}
 	
 	public void pollController()

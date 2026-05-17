@@ -31,9 +31,12 @@ public class ButtonMap
 		THRESHOLD_POSITIVE = .6f,
 		THRESHOLD_NEGATIVE = -.6f;
 	
-	public ButtonMap()
+	private JoystickConsole
+		js;
+	
+	public ButtonMap(JoystickConsole js)
 	{
-		
+		this.js = js;
 	}
 	
 	public ArrayList<ControllerButton> getControllerButtonsPressed(ControllerIndex controller)
@@ -86,6 +89,8 @@ public class ButtonMap
 			public void run() 
 			{
 				ControllerAxisToButton [] axis = new ControllerAxisToButton[] {
+					new ControllerAxisToButton(ControllerAxis.TRIGGERLEFT),
+					new ControllerAxisToButton(ControllerAxis.TRIGGERRIGHT),
 					new ControllerAxisToButton(ControllerAxis.LEFTX),
 					new ControllerAxisToButton(ControllerAxis.LEFTY),
 					new ControllerAxisToButton(ControllerAxis.RIGHTX),
@@ -118,7 +123,7 @@ public class ButtonMap
 						}
 					}
 					try {
-						Thread.sleep(10L);
+						Thread.sleep(15L);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -131,25 +136,27 @@ public class ButtonMap
 	
 	public void sendJoyPress(String axis)
 	{
-		System.out.println(axis);
-		HttpRequestJoy.executePutRequest(
+		js.addOutput(axis);
+		String resp = HttpRequestJoy.executePutRequest(
 				JoystickDriver.ENDPOINT,
 				JoystickDriver.PORT_NUMBER,
 				axis,
 				JoystickDriver.REQUEST_TYPE_HEADER_KEY,
 				JoystickDriver.REQUEST_FUNCTION
 		);
+		js.addOutput(resp);
 	}
 	
 	public void sendButtonPress(String btn)
 	{
-		System.out.println(btn);
-		HttpRequestJoy.executePutRequest(
+		js.addOutput(btn);
+		String resp = HttpRequestJoy.executePutRequest(
 				JoystickDriver.ENDPOINT,
 				JoystickDriver.PORT_NUMBER,
 				btn,
 				JoystickDriver.REQUEST_TYPE_HEADER_KEY,
 				JoystickDriver.REQUEST_FUNCTION
 		);
+		js.addOutput(resp);
 	}
 }
