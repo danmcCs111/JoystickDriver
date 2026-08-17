@@ -19,7 +19,6 @@ public class JoystickConsole extends JFrame
 	private static final String
 		TITLE = "Joystick Driver",
 		CLOSE_BTN_TEXT = "Close",
-		RECONNECT_BTN_TEXT = "Reconnect",
 		ENABLED_TEXT = "Enabled.",
 		DISABLED_TEXT = "Disabled.",
 		TOGGLE_HAULT_TEXT = "Pause",
@@ -33,7 +32,6 @@ public class JoystickConsole extends JFrame
 	private JLabel
 		statusLabel = new JLabel(ENABLED_TEXT);
 	private JButton
-		reconnectButton,
 		toggleHaultButton,
 		closeButton;
 	private ButtonMap
@@ -74,7 +72,7 @@ public class JoystickConsole extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				boolean hlt = bm.getHault();
 				bm.setHault(!hlt);
-				toggleHaultButton.setText(!hlt?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
+				setStatus(!hlt);
 			}
 		});
 		
@@ -98,6 +96,7 @@ public class JoystickConsole extends JFrame
 	public void setStatus(boolean hault)
 	{
 		statusLabel.setText(hault?DISABLED_TEXT:ENABLED_TEXT);
+		toggleHaultButton.setText(hault?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
 	}
 	
 	public void addOutput(String out)

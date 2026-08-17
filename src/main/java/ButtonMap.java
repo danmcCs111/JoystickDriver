@@ -37,12 +37,12 @@ public class ButtonMap
 		keyCombo = new String [] []
 		{
 			{
-					ControllerButton.START.toString(),
-					ControllerButton.LEFTBUMPER.toString()
+				ControllerButton.START.toString(),
+				ControllerButton.LEFTBUMPER.toString()
 			},
 			{
-					ControllerButton.START.toString(),
-					ControllerButton.RIGHTBUMPER.toString()
+				ControllerButton.START.toString(),
+				ControllerButton.RIGHTBUMPER.toString()
 			}
 		};
 	private static boolean 
