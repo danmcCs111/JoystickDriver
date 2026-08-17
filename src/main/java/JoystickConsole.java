@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,13 +25,16 @@ public class JoystickConsole extends JFrame
 		TOGGLE_HAULT_TEXT = "Pause",
 		TOGGLE_ENABLE_TEXT = "Enable";
 	private static final Dimension
-		MIN_DIMENSION = new Dimension(350, 100);
+		MIN_DIMENSION = new Dimension(350, 125);
+	private static final Color
+		ENABLE_COLOR = Color.DARK_GRAY,
+		DISABLE_COLOR = Color.RED;
 //	private JScrollPane
 //		scrollPane = new JScrollPane();
 //	private JTextArea
 //		consoleOutput = new JTextArea();
 	private JLabel
-		statusLabel = new JLabel(ENABLED_TEXT);
+		statusLabel = new JLabel();
 	private JButton
 		toggleHaultButton,
 		closeButton;
@@ -45,6 +49,7 @@ public class JoystickConsole extends JFrame
 	public void setButtonMap(ButtonMap bm)
 	{
 		this.bm = bm;
+		setStatus(bm.getHault());
 	}
 	
 	private void buildWidgets()
@@ -66,7 +71,7 @@ public class JoystickConsole extends JFrame
 				System.exit(0);
 			}
 		});
-		toggleHaultButton = new JButton(TOGGLE_HAULT_TEXT);
+		toggleHaultButton = new JButton();
 		toggleHaultButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -76,8 +81,8 @@ public class JoystickConsole extends JFrame
 			}
 		});
 		
-		controlPanel.add(statusLabel);
 		controlPanel.add(toggleHaultButton);
+		controlPanel.add(statusLabel);
 		
 		connectPanel.add(closeButton);
 		
@@ -87,7 +92,8 @@ public class JoystickConsole extends JFrame
 		this.setMinimumSize(MIN_DIMENSION);
 		
 //		this.add(scrollPane, BorderLayout.CENTER);
-		this.add(controlPanel, BorderLayout.NORTH);
+		this.add(new JLabel("Start + (Left / Right) Bumper to Enable/Disable"), BorderLayout.NORTH);
+		this.add(controlPanel, BorderLayout.CENTER);
 		this.add(connectPanel, BorderLayout.SOUTH);
 		centerOnScreen(this);
 		this.setVisible(true);
@@ -96,6 +102,8 @@ public class JoystickConsole extends JFrame
 	public void setStatus(boolean hault)
 	{
 		statusLabel.setText(hault?DISABLED_TEXT:ENABLED_TEXT);
+		statusLabel.setForeground(hault?DISABLE_COLOR:ENABLE_COLOR);
+		
 		toggleHaultButton.setText(hault?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
 	}
 	
