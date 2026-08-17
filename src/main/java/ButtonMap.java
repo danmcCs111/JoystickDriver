@@ -33,6 +33,15 @@ public class ButtonMap
 	
 	private JoystickConsole
 		js;
+//	private static final String []
+//		keyCombo = new String [] {
+//				ControllerButton.START.toString(),
+//				ControllerButton.BACK.toString()
+//		};
+	private static boolean 
+		hault = false;
+	private static int
+		SLEEP_INTERVAL = 25;
 	
 	public ButtonMap(JoystickConsole js)
 	{
@@ -58,6 +67,33 @@ public class ButtonMap
 		return pressedButtons;
 	}
 	
+//	private boolean detectComboPress(ArrayList<ControllerButton> cbs)
+//	{
+//		String [] detect = new String [keyCombo.length];
+//		int count = 0;
+//		for(ControllerButton cb : cbs)
+//		{
+//			for(String det : detect)
+//			{
+//				if(cb.toString().equals(det))
+//				{
+//					count++;
+//				}
+//			}
+//		}
+//		return (count == detect.length);
+//	}
+	
+	public boolean getHault()
+	{
+		return hault;
+	}
+	public void setHault(boolean isHault)
+	{
+		hault = isHault;
+		this.js.setStatus(hault);
+	}
+	
 	public void startButtonThread(ControllerManager controllers, ControllerIndex currController)
 	{
 		Runnable r = new Runnable()
@@ -70,9 +106,24 @@ public class ButtonMap
 					controllers.update(); 
 					ArrayList<ControllerButton> cbs = getControllerButtonsPressed(currController);
 					
-					for(ControllerButton cb : cbs)
+					if(!hault)
 					{
-						sendButtonPress(cb.toString());
+						for(ControllerButton cb : cbs)
+						{
+							sendButtonPress(cb.toString());
+						}
+					}
+					
+//					boolean combo = detectComboPress(cbs);
+//					if(combo)
+//					{
+//						setHault(!hault);//toggle
+//					}
+					
+					try {
+						Thread.sleep(SLEEP_INTERVAL);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 				}
 			}
@@ -99,31 +150,34 @@ public class ButtonMap
 				
 				while(true)
 				{
-					controllers.update();
-					for(int i = 0; i < axis.length; i++)
+					if(!hault)
 					{
-						try {
-							axis[i].val = currController.getAxisState(axis[i].getControllerAxis());
-						} catch (ControllerUnpluggedException e) {
-							e.printStackTrace();
-						}
-						float val = axis[i].val;
-						
-						if(val >= THRESHOLD_POSITIVE || val <= THRESHOLD_NEGATIVE)
+						controllers.update();
+						for(int i = 0; i < axis.length; i++)
 						{
-							boolean press = axis[i].getPressed();
-							if(press)
+							try {
+								axis[i].val = currController.getAxisState(axis[i].getControllerAxis());
+							} catch (ControllerUnpluggedException e) {
+								e.printStackTrace();
+							}
+							float val = axis[i].val;
+							
+							if(val >= THRESHOLD_POSITIVE || val <= THRESHOLD_NEGATIVE)
 							{
-								sendJoyPress(
-									axis[i].getControllerAxis().toString() + " " +
-									axis[i].isPositiveFloat()
-								);
-								axis[i].setPressed(false);
+								boolean press = axis[i].getPressed();
+								if(press)
+								{
+									sendJoyPress(
+											axis[i].getControllerAxis().toString() + " " +
+													axis[i].isPositiveFloat()
+											);
+									axis[i].setPressed(false);
+								}
 							}
 						}
 					}
 					try {
-						Thread.sleep(15L);
+						Thread.sleep(SLEEP_INTERVAL);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

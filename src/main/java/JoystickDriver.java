@@ -28,12 +28,14 @@ public class JoystickDriver
 		controllers.initSDLGamepad();
 		currController = controllers.getControllerIndex(0);
 		bm = new ButtonMap(js);
+		js.setButtonMap(bm);
 	}
 	
 	public void pollController()
 	{
 		bm.startAxisToButtonThread(controllers, currController);
 		bm.startButtonThread(controllers, currController);
+		
 		while(true)
 		{
 			try {

@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class JoystickConsole extends JFrame 
 {
@@ -16,24 +18,41 @@ public class JoystickConsole extends JFrame
 	
 	private static final String
 		TITLE = "Joystick Driver",
-		CLOSE_BTN_TEXT = "Close";
+		CLOSE_BTN_TEXT = "Close",
+		ENABLED_TEXT = "Enabled.",
+		DISABLED_TEXT = "Disabled.",
+		TOGGLE_HAULT_TEXT = "Pause",
+		TOGGLE_ENABLE_TEXT = "Enable";
 	private static final Dimension
 		MIN_DIMENSION = new Dimension(350, 100);
 //	private JScrollPane
 //		scrollPane = new JScrollPane();
 //	private JTextArea
 //		consoleOutput = new JTextArea();
+	private JLabel
+		statusLabel = new JLabel(ENABLED_TEXT);
 	private JButton
+		toggleHaultButton,
 		closeButton;
+	private ButtonMap
+		bm;
 	
 	public JoystickConsole()
 	{
 		buildWidgets();
 	}
 	
+	public void setButtonMap(ButtonMap bm)
+	{
+		this.bm = bm;
+	}
+	
 	private void buildWidgets()
 	{
 //		scrollPane.setViewportView(consoleOutput);
+		JPanel controlPanel = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
+		controlPanel.setLayout(fl);
 		
 		closeButton = new JButton(CLOSE_BTN_TEXT);
 		closeButton.addActionListener(new ActionListener() {
@@ -42,17 +61,34 @@ public class JoystickConsole extends JFrame
 				System.exit(0);
 			}
 		});
+		toggleHaultButton = new JButton(TOGGLE_HAULT_TEXT);
+		toggleHaultButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean hlt = bm.getHault();
+				bm.setHault(!hlt);
+				toggleHaultButton.setText(!hlt?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
+			}
+		});
+		
+		controlPanel.add(statusLabel);
+		controlPanel.add(toggleHaultButton);
+		
 		this.setTitle(TITLE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FlowLayout fl = new FlowLayout();
-		fl.setAlignment(FlowLayout.CENTER);
-		this.setLayout(fl);
+		this.setLayout(new BorderLayout());
 		this.setMinimumSize(MIN_DIMENSION);
 		
 //		this.add(scrollPane, BorderLayout.CENTER);
-		this.add(closeButton);
+		this.add(controlPanel, BorderLayout.NORTH);
+		this.add(closeButton, BorderLayout.SOUTH);
 		centerOnScreen(this);
 		this.setVisible(true);
+	}
+	
+	public void setStatus(boolean hault)
+	{
+		statusLabel.setText(hault?DISABLED_TEXT:ENABLED_TEXT);
 	}
 	
 	public void addOutput(String out)
