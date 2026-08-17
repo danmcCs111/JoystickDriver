@@ -19,6 +19,7 @@ public class JoystickConsole extends JFrame
 	private static final String
 		TITLE = "Joystick Driver",
 		CLOSE_BTN_TEXT = "Close",
+		RECONNECT_BTN_TEXT = "Reconnect",
 		ENABLED_TEXT = "Enabled.",
 		DISABLED_TEXT = "Disabled.",
 		TOGGLE_HAULT_TEXT = "Pause",
@@ -32,6 +33,7 @@ public class JoystickConsole extends JFrame
 	private JLabel
 		statusLabel = new JLabel(ENABLED_TEXT);
 	private JButton
+		reconnectButton,
 		toggleHaultButton,
 		closeButton;
 	private ButtonMap
@@ -50,9 +52,14 @@ public class JoystickConsole extends JFrame
 	private void buildWidgets()
 	{
 //		scrollPane.setViewportView(consoleOutput);
-		JPanel controlPanel = new JPanel();
+		JPanel 
+			controlPanel = new JPanel(),
+			connectPanel = new JPanel();
+		
 		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
 		controlPanel.setLayout(fl);
+		FlowLayout f2 = new FlowLayout(FlowLayout.RIGHT);
+		connectPanel.setLayout(f2);
 		
 		closeButton = new JButton(CLOSE_BTN_TEXT);
 		closeButton.addActionListener(new ActionListener() {
@@ -74,6 +81,8 @@ public class JoystickConsole extends JFrame
 		controlPanel.add(statusLabel);
 		controlPanel.add(toggleHaultButton);
 		
+		connectPanel.add(closeButton);
+		
 		this.setTitle(TITLE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
@@ -81,7 +90,7 @@ public class JoystickConsole extends JFrame
 		
 //		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(controlPanel, BorderLayout.NORTH);
-		this.add(closeButton, BorderLayout.SOUTH);
+		this.add(connectPanel, BorderLayout.SOUTH);
 		centerOnScreen(this);
 		this.setVisible(true);
 	}

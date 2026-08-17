@@ -94,7 +94,7 @@ public class ButtonMap
 		this.js.setStatus(hault);
 	}
 	
-	public void startButtonThread(ControllerManager controllers, ControllerIndex currController)
+	public void startButtonThread(ControllerManager controllers)
 	{
 		Runnable r = new Runnable()
 		{
@@ -103,7 +103,8 @@ public class ButtonMap
 			{
 				while(true) 
 				{
-					controllers.update(); 
+					controllers.update();
+					ControllerIndex currController = controllers.getControllerIndex(0);
 					ArrayList<ControllerButton> cbs = getControllerButtonsPressed(currController);
 					
 					if(!hault)
@@ -132,7 +133,7 @@ public class ButtonMap
 		t.start();
 	}
 	
-	public void startAxisToButtonThread(ControllerManager controllers, ControllerIndex currController)
+	public void startAxisToButtonThread(ControllerManager controllers)
 	{
 		Runnable r = new Runnable()
 		{
@@ -153,6 +154,7 @@ public class ButtonMap
 					if(!hault)
 					{
 						controllers.update();
+						ControllerIndex currController = controllers.getControllerIndex(0);
 						for(int i = 0; i < axis.length; i++)
 						{
 							try {

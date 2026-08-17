@@ -16,6 +16,6 @@ echo "$@"
 echo $classpath
 
 
-java -cp "$classpath" JoystickDriver "$@"; ../joystick_mouse_config/antimicrox-3.5.1-PortableWindows-AMD64/bin/antimicrox.exe --profile ../joystick_mouse_config/video-launcher_joystick.gamecontroller
+java --enable-native-access=ALL-UNNAMED -cp "$classpath" JoystickDriver "$@"
 
 cd -

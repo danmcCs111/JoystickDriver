@@ -1,5 +1,6 @@
 import com.studiohartman.jamepad.ControllerIndex;
 import com.studiohartman.jamepad.ControllerManager;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
 
 /* https://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.30-rc1/libusb-1.0.30-rc1.7z/download
  * For 64-bit applications: Copy libusb-1.0.dll from the MS64\dll\ folder to C:\Windows\System32.
@@ -25,16 +26,14 @@ public class JoystickDriver
 	{
 		JoystickConsole js = new JoystickConsole();
 		controllers = new ControllerManager();
-		controllers.initSDLGamepad();
-		currController = controllers.getControllerIndex(0);
 		bm = new ButtonMap(js);
 		js.setButtonMap(bm);
 	}
 	
 	public void pollController()
 	{
-		bm.startAxisToButtonThread(controllers, currController);
-		bm.startButtonThread(controllers, currController);
+		bm.startAxisToButtonThread(controllers);
+		bm.startButtonThread(controllers);
 		
 		while(true)
 		{
@@ -46,9 +45,21 @@ public class JoystickDriver
 		}
 	}
 	
+	public static void connect()
+	{
+		controllers.initSDLGamepad();
+		currController = controllers.getControllerIndex(0);
+		try {
+			System.out.println("is Connected: " + currController.isConnected() + " Name: " + currController.getName().toString());
+		} catch (ControllerUnpluggedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String [] args)
 	{
 		JoystickDriver jd = new JoystickDriver();
+		connect();
 		jd.pollController();
 	}
 }
