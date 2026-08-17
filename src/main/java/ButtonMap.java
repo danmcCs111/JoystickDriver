@@ -33,14 +33,22 @@ public class ButtonMap
 	
 	private JoystickConsole
 		js;
-//	private static final String []
-//		keyCombo = new String [] {
-//				ControllerButton.START.toString(),
-//				ControllerButton.BACK.toString()
-//		};
+	private static final String [] []
+		keyCombo = new String [] []
+		{
+			{
+					ControllerButton.START.toString(),
+					ControllerButton.LEFTBUMPER.toString()
+			},
+			{
+					ControllerButton.START.toString(),
+					ControllerButton.RIGHTBUMPER.toString()
+			}
+		};
 	private static boolean 
 		hault = false;
 	private static int
+		COMBO_HAULT_DETECT = 1000,
 		SLEEP_INTERVAL = 25;
 	
 	public ButtonMap(JoystickConsole js)
@@ -48,7 +56,7 @@ public class ButtonMap
 		this.js = js;
 	}
 	
-	public ArrayList<ControllerButton> getControllerButtonsPressed(ControllerIndex controller)
+	public ArrayList<ControllerButton> getControllerButtonsJustPressed(ControllerIndex controller)
 	{
 		ArrayList<ControllerButton> pressedButtons = new ArrayList<ControllerButton>();
 		
@@ -67,22 +75,50 @@ public class ButtonMap
 		return pressedButtons;
 	}
 	
-//	private boolean detectComboPress(ArrayList<ControllerButton> cbs)
-//	{
-//		String [] detect = new String [keyCombo.length];
-//		int count = 0;
-//		for(ControllerButton cb : cbs)
-//		{
-//			for(String det : detect)
-//			{
-//				if(cb.toString().equals(det))
-//				{
-//					count++;
-//				}
-//			}
-//		}
-//		return (count == detect.length);
-//	}
+	public ArrayList<ControllerButton> getControllerButtonsPressed(ControllerIndex controller)
+	{
+		ArrayList<ControllerButton> pressedButtons = new ArrayList<ControllerButton>();
+		
+		for(ControllerButton cb : controllerButtons)
+		{
+			try {
+				if(controller.isButtonPressed(cb))
+				{
+					pressedButtons.add(cb);
+				}
+			} catch (ControllerUnpluggedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return pressedButtons;
+	}
+	
+	private boolean detectComboPress(ArrayList<ControllerButton> cbs)
+	{
+		int [] count = new int [keyCombo.length];
+		for(ControllerButton cb : cbs)
+		{
+			for(int i = 0; i < keyCombo.length; i++)
+			{
+				for(String det : keyCombo[i])
+				{
+					if(cb.toString().equals(det))
+					{
+						count[i]++;
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < keyCombo.length; i++)
+		{
+			if(count[i] == keyCombo[i].length)
+				return true;
+		}
+		
+		return false;
+	}
 	
 	public boolean getHault()
 	{
@@ -105,7 +141,20 @@ public class ButtonMap
 				{
 					controllers.update();
 					ControllerIndex currController = controllers.getControllerIndex(0);
-					ArrayList<ControllerButton> cbs = getControllerButtonsPressed(currController);
+					
+					ArrayList<ControllerButton> cbs = getControllerButtonsJustPressed(currController);
+					ArrayList<ControllerButton> cbsP = getControllerButtonsPressed(currController);
+					boolean combo = detectComboPress(cbsP);
+					if(combo)
+					{
+						setHault(!hault);//toggle
+						try {
+							Thread.sleep(COMBO_HAULT_DETECT);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						continue;
+					}
 					
 					if(!hault)
 					{
@@ -115,11 +164,6 @@ public class ButtonMap
 						}
 					}
 					
-//					boolean combo = detectComboPress(cbs);
-//					if(combo)
-//					{
-//						setHault(!hault);//toggle
-//					}
 					
 					try {
 						Thread.sleep(SLEEP_INTERVAL);

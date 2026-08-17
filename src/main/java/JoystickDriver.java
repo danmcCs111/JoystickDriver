@@ -50,7 +50,7 @@ public class JoystickDriver
 		controllers.initSDLGamepad();
 		currController = controllers.getControllerIndex(0);
 		try {
-			System.out.println("is Connected: " + currController.isConnected() + " Name: " + currController.getName().toString());
+			System.out.println(" Name: " + currController.getName().toString() + "is Connected: " + currController.isConnected());
 		} catch (ControllerUnpluggedException e) {
 			e.printStackTrace();
 		}
