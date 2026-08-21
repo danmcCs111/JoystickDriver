@@ -3,11 +3,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,15 +24,19 @@ public class JoystickConsole extends JFrame
 	private static final String
 		TITLE = "Joystick Driver",
 		CLOSE_BTN_TEXT = "Close",
+		IMG_ICON_LOCATION = System.getProperty("user.dir")+"/images/joystick-sm.png",
 		ENABLED_TEXT = "Enabled.",
 		DISABLED_TEXT = "Disabled.",
 		TOGGLE_HAULT_TEXT = "Pause",
 		TOGGLE_ENABLE_TEXT = "Enable";
 	private static final Dimension
+//		ENABLE_DISABLE_FRAME_SIZE = new Dimension(325,50),
 		MIN_DIMENSION = new Dimension(350, 125);
 	private static final Color
 		ENABLE_COLOR = Color.DARK_GRAY,
 		DISABLE_COLOR = Color.RED;
+//	private static final int
+//		ENABLE_DISABLE_NOTIFY_DISPLAYTIME = 1000;//millis
 //	private JScrollPane
 //		scrollPane = new JScrollPane();
 //	private JTextArea
@@ -54,6 +62,13 @@ public class JoystickConsole extends JFrame
 	
 	private void buildWidgets()
 	{
+		Image img;
+		try {
+			img = ImageIO.read(new File(IMG_ICON_LOCATION));
+			this.setIconImage(img);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 //		scrollPane.setViewportView(consoleOutput);
 		JPanel 
 			controlPanel = new JPanel(),
@@ -105,7 +120,32 @@ public class JoystickConsole extends JFrame
 		statusLabel.setForeground(hault?DISABLE_COLOR:ENABLE_COLOR);
 		
 		toggleHaultButton.setText(hault?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
+//		showNotification(hault);
 	}
+	
+//	public void showNotification(boolean hault)
+//	{
+//		Runnable r = new Runnable() {
+//			@Override
+//			public void run() {
+//				JFrame f = new JFrame();
+//				f.setTitle(hault?"Controller Disabled":"Controller Enabled");
+//				f.setMinimumSize(ENABLE_DISABLE_FRAME_SIZE);
+//				f.setResizable(false);
+//				centerOnScreen(f);
+//				f.setVisible(true);
+//				f.toFront();
+//				try {
+//					Thread.sleep(ENABLE_DISABLE_NOTIFY_DISPLAYTIME);
+//					f.dispose();
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+//		Thread t = new Thread(r);
+//		t.start();
+//	}
 	
 	public void addOutput(String out)
 	{
