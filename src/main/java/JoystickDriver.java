@@ -47,11 +47,11 @@ public class JoystickDriver
 	
 	public static void connect()
 	{
-		controllers.initSDLGamepad();
-		currController = controllers.getControllerIndex(0);
 		try {
+			controllers.initSDLGamepad();
+			currController = controllers.getControllerIndex(0);
 			System.out.println(" Name: " + currController.getName().toString() + "is Connected: " + currController.isConnected());
-		} catch (ControllerUnpluggedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -59,6 +59,10 @@ public class JoystickDriver
 	public static void main(String [] args)
 	{
 		JoystickDriver jd = new JoystickDriver();
+		if(args.length > 0)
+		{
+			JoystickConsole.setAboutDialogText(args[0]);
+		}
 		connect();
 		jd.pollController();
 	}

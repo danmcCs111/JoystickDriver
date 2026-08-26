@@ -12,17 +12,35 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class JoystickConsole extends JFrame 
 {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String
+	private static String
 		TITLE = "Joystick Driver",
+		ABOUT_TITLE_DIALOG = "Controller Mapping",
+		ABOUT_MENU_ITEM = "About",
+		ABOUT_CLI_NEWLINE_ARG=";n;",
+		ABOUT_DIALOG_MESSAGE = 
+			"Left/Right Triggers - Gain focus back to 'Video Launcher' \n" + 
+			"Left/Right Bumper Buttons - Restore/Minimize Open Videos / Video Channels \n" + 
+			"A - Enter/Select \n" +
+			"B - Escape/Cancel \n" + 
+			"X - Close Open Videos / Video Channels OR Launch homepage \n" + 
+			"Y - Open VideoBookmarks Dialog to Open Videos / Video Channels OR Update Video Channel \n" +
+			"Start - Minimize / Restore 'Video Launcher' Window \n" +
+			"Back - Close Video Playing \n" + 
+			"Left Stick Button - Pause / Play \n" +
+			"Right Stick Button - Fullscreen / Restore \n",
 		CLOSE_BTN_TEXT = "Close",
 		IMG_ICON_LOCATION = System.getProperty("user.dir")+"/images/joystick-sm.png",
 		ENABLED_TEXT = "Enabled.",
@@ -30,17 +48,12 @@ public class JoystickConsole extends JFrame
 		TOGGLE_HAULT_TEXT = "Pause",
 		TOGGLE_ENABLE_TEXT = "Enable";
 	private static final Dimension
-//		ENABLE_DISABLE_FRAME_SIZE = new Dimension(325,50),
-		MIN_DIMENSION = new Dimension(350, 125);
+		MIN_DIMENSION = new Dimension(350, 150);
 	private static final Color
 		ENABLE_COLOR = Color.DARK_GRAY,
 		DISABLE_COLOR = Color.RED;
-//	private static final int
-//		ENABLE_DISABLE_NOTIFY_DISPLAYTIME = 1000;//millis
-//	private JScrollPane
-//		scrollPane = new JScrollPane();
-//	private JTextArea
-//		consoleOutput = new JTextArea();
+	private JMenuItem
+		about;
 	private JLabel
 		statusLabel = new JLabel();
 	private JButton
@@ -48,10 +61,18 @@ public class JoystickConsole extends JFrame
 		closeButton;
 	private ButtonMap
 		bm;
+	private Image 
+		img = null;
 	
 	public JoystickConsole()
 	{
 		buildWidgets();
+	}
+	
+	public static void setAboutDialogText(String dialogText)
+	{
+		dialogText = dialogText.replaceAll(ABOUT_CLI_NEWLINE_ARG, System.lineSeparator());
+		ABOUT_DIALOG_MESSAGE = dialogText;
 	}
 	
 	public void setButtonMap(ButtonMap bm)
@@ -62,7 +83,7 @@ public class JoystickConsole extends JFrame
 	
 	private void buildWidgets()
 	{
-		Image img;
+		
 		try {
 			img = ImageIO.read(new File(IMG_ICON_LOCATION));
 			this.setIconImage(img);
@@ -78,6 +99,25 @@ public class JoystickConsole extends JFrame
 		controlPanel.setLayout(fl);
 		FlowLayout f2 = new FlowLayout(FlowLayout.RIGHT);
 		connectPanel.setLayout(f2);
+		
+		JMenuBar jmb = new JMenuBar();
+		about = new JMenuItem();
+		about.setText(ABOUT_MENU_ITEM);
+		about.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				JOptionPane.showMessageDialog(
+					null, 
+					ABOUT_DIALOG_MESSAGE,
+					ABOUT_TITLE_DIALOG,
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon(img)
+				);
+			}
+		});
+		
+		jmb.add(about);
 		
 		closeButton = new JButton(CLOSE_BTN_TEXT);
 		closeButton.addActionListener(new ActionListener() {
@@ -106,7 +146,7 @@ public class JoystickConsole extends JFrame
 		this.setLayout(new BorderLayout());
 		this.setMinimumSize(MIN_DIMENSION);
 		
-//		this.add(scrollPane, BorderLayout.CENTER);
+		this.setJMenuBar(jmb);
 		this.add(new JLabel("Start + (Left / Right) Bumper to Enable/Disable"), BorderLayout.NORTH);
 		this.add(controlPanel, BorderLayout.CENTER);
 		this.add(connectPanel, BorderLayout.SOUTH);
@@ -120,36 +160,16 @@ public class JoystickConsole extends JFrame
 		statusLabel.setForeground(hault?DISABLE_COLOR:ENABLE_COLOR);
 		
 		toggleHaultButton.setText(hault?TOGGLE_ENABLE_TEXT:TOGGLE_HAULT_TEXT);
-//		showNotification(hault);
 	}
 	
-//	public void showNotification(boolean hault)
-//	{
-//		Runnable r = new Runnable() {
-//			@Override
-//			public void run() {
-//				JFrame f = new JFrame();
-//				f.setTitle(hault?"Controller Disabled":"Controller Enabled");
-//				f.setMinimumSize(ENABLE_DISABLE_FRAME_SIZE);
-//				f.setResizable(false);
-//				centerOnScreen(f);
-//				f.setVisible(true);
-//				f.toFront();
-//				try {
-//					Thread.sleep(ENABLE_DISABLE_NOTIFY_DISPLAYTIME);
-//					f.dispose();
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//		Thread t = new Thread(r);
-//		t.start();
-//	}
-	
-	public void addOutput(String out)
+	public void setError(String error)
 	{
-//		consoleOutput.setText(out + "\n");//just latest output to save memory.
+		
+	}
+	
+	public void addOutput(String output)
+	{
+		//nop.
 	}
 	
 	public static void centerOnScreen(Component comp)
