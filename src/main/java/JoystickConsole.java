@@ -52,9 +52,11 @@ public class JoystickConsole extends JFrame
 	private static final Color
 		ENABLE_COLOR = Color.DARK_GRAY,
 		DISABLE_COLOR = Color.RED;
+	
 	private JMenuItem
 		about;
 	private JLabel
+		textLabel = new JLabel(),
 		statusLabel = new JLabel();
 	private JButton
 		toggleHaultButton,
@@ -83,7 +85,6 @@ public class JoystickConsole extends JFrame
 	
 	private void buildWidgets()
 	{
-		
 		try {
 			img = ImageIO.read(new File(IMG_ICON_LOCATION));
 			this.setIconImage(img);
@@ -138,6 +139,7 @@ public class JoystickConsole extends JFrame
 		
 		controlPanel.add(toggleHaultButton);
 		controlPanel.add(statusLabel);
+		controlPanel.add(textLabel);
 		
 		connectPanel.add(closeButton);
 		
@@ -164,12 +166,17 @@ public class JoystickConsole extends JFrame
 	
 	public void setError(String error)
 	{
-		
+		textLabel.setText(" " + error);//TODO.
+	}
+	
+	public void setText(String output)
+	{
+		textLabel.setText(" " + output);
 	}
 	
 	public void addOutput(String output)
 	{
-		//nop.
+//		textLabel.setText(output);
 	}
 	
 	public static void centerOnScreen(Component comp)

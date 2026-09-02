@@ -52,7 +52,8 @@ public class ControllerAxisToButton
 		boolean 
 			pressed = isPositiveFloat() ? pressedPos : pressedNeg,
 			slowPress = isPositiveFloat() ? slowPressPos : slowPressNeg;
-		long startTime = isPositiveFloat() ? startTimePos : startTimeNeg;
+		long 
+			startTime = isPositiveFloat() ? startTimePos : startTimeNeg;
 		
 		if(!pressed)
 		{
@@ -81,7 +82,8 @@ public class ControllerAxisToButton
 		{
 			this.slowPressPos = slowPress;
 		}
-		else {
+		else 
+		{
 			this.slowPressNeg = slowPress;
 		}
 	}
