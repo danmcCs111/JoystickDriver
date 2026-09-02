@@ -6,7 +6,7 @@ import java.awt.Robot;
 public class MouseSim 
 {
 	private static int 
-		MOUSE_WHEEL_MOVE_AMOUNT = 15;
+		MOUSE_WHEEL_MOVE_AMOUNT = 1;
 	private static Robot 
 		robot;
 	static {
