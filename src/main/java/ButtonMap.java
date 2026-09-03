@@ -210,6 +210,16 @@ public class ButtonMap
 								case B:
 									MouseSim.robotKeyPress(KeyEvent.VK_ESCAPE);
 									break;
+								case LEFTSTICK:
+									MouseSim.robotKeyPress(KeyEvent.VK_SPACE);
+									break;
+								case RIGHTSTICK:
+									MouseSim.robotKeyPress(KeyEvent.VK_F);
+									break;
+								case X:
+									break;
+								case Y:
+									break;
 								case LEFTBUMPER:
 									MouseSim.robotCursorClick(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
 									break;
